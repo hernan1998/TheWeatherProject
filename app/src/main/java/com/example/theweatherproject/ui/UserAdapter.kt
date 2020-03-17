@@ -32,8 +32,11 @@ class UserAdapter (
         val item = mValues[position]
         holder.mView.user = item
         holder.mView.executePendingBindings()
-        //holder.textViewN.setOnClickListener{
-        //    mListener?.onListItemInteracion(item)
+        holder.mView.theLayout.setOnClickListener{
+            mListener?.onListItemInteracion(item)
+        }
+        //holder.mView.textViewName.setOnClickListener{
+          //  mListener?.onListItemInteracion(item)
         //}
     }
 
