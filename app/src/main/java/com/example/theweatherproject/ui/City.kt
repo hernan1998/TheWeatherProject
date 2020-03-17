@@ -87,12 +87,13 @@ class City : Fragment() {
                 Log.d("foretask", "entro forecast inicio")
                 /* Extracting JSON returns from the API */
                 val jsonObj = JSONObject(result)
-                val main = jsonObj.getJSONObject("main")
-                val sys = jsonObj.getJSONObject("sys")
-                val wind = jsonObj.getJSONObject("wind")
-                val weather = jsonObj.getJSONArray("weather").getJSONObject(0)
+                val list = jsonObj.getJSONArray("list").getJSONObject(0)
+                val main = list.getJSONObject("main")
+                val ciudad = jsonObj.getJSONObject("city")
+                val wind = list.getJSONObject("wind")
+                val weather = list.getJSONArray("weather").getJSONObject(0)
 
-                val updatedAt:Long = jsonObj.getLong("dt")
+                val updatedAt:Long = list.getLong("dt")
                 val updatedAtText = "Forecast for: "+ SimpleDateFormat("dd/MM/yyyy hh:mm a", Locale.ENGLISH).format(
                     Date(updatedAt*1000)
                 )
@@ -102,12 +103,12 @@ class City : Fragment() {
                 val pressure = main.getString("pressure")
                 val humidity = main.getString("humidity")
 
-                val sunrise:Long = sys.getLong("sunrise")
-                val sunset:Long = sys.getLong("sunset")
+                val sunrise:Long = ciudad.getLong("sunrise")
+                val sunset:Long = ciudad.getLong("sunset")
                 var windSpeed = wind.getString("speed")
                 var weatherDescription = weather.getString("description")
 
-                var address = jsonObj.getString("name")+", "+sys.getString("country")
+                var address = ciudad.getString("name")+", "+ciudad.getString("country")
 
 
                 Log.d("foretask", "entro forecast final")
