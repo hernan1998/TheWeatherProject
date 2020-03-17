@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 
@@ -29,7 +30,7 @@ class City : Fragment() {
     val days = mutableListOf<User>()
     val API: String = "0fcfed172e3e096549c445cab418490f"
     private var adapter: CityAdapter? = null
-    val CITY = arguments!!.getParcelable("data")
+    var CITY = ""
 
     companion object {
         fun newInstance() = City()
@@ -53,6 +54,8 @@ class City : Fragment() {
 
     override fun onViewCreated(view: View,savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        CITY = arguments!!.getBundle("data").toString()
+        view.findViewById<TextView>(R.id.textView).text = CITY
         viewModel = ViewModelProviders.of(this).get(FragmentListViewModel::class.java)
     }
 
@@ -81,7 +84,7 @@ class City : Fragment() {
                 val main = jsonObj.getJSONObject("main")
                 val sys = jsonObj.getJSONObject("sys")
                 val wind = jsonObj.getJSONObject("wind")
-                val weather = jsonObj.getJSONArray("weather").getJSONObject(I)
+                val weather = jsonObj.getJSONArray("weather").getJSONObject(0)
 
                 val updatedAt:Long = jsonObj.getLong("dt")
                 val updatedAtText = "Forecast for: "+ SimpleDateFormat("dd/MM/yyyy hh:mm a", Locale.ENGLISH).format(

@@ -65,8 +65,8 @@ class FragmentList : Fragment(), UserAdapter.onListInteraction {
 
     override fun onListItemInteracion(item: User?) {
         Log.d("KRecycleView", "onListInteraction "+ item!!.nombre)
-        val bundle = bundleOf("data" to item!!.nombre)
-        navControler!!.navigate(R.id.action_fragmentList_to_city)
+        val bundle = bundleOf("data" to item.nombre)
+        navControler!!.navigate(R.id.action_fragmentList_to_city, bundle)
     }
 
     inner class weatherTask(var CITY: String) : AsyncTask<String, Void, String>() {
