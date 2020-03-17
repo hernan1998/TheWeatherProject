@@ -24,6 +24,10 @@ class CityAdapter (private val mValues: List<User>) : RecyclerView.Adapter<CityA
         holder.mView.executePendingBindings()
     }
 
+    public fun UpdateData(){
+        notifyDataSetChanged()
+    }
+
     inner class ViewHolder (val mView: RowBinding) : RecyclerView.ViewHolder(mView.root){
     }
 }

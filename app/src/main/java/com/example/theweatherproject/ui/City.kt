@@ -5,13 +5,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
-import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.example.theweatherproject.R
+import com.example.theweatherproject.R.layout.fragment_city
 import com.example.theweatherproject.data.User
+import kotlinx.android.synthetic.main.fragment_city.view.*
 import kotlinx.android.synthetic.main.fragment_list.view.*
+import androidx.recyclerview.widget.LinearLayoutManager as LinearLayoutManager1
 
 /**
  * A simple [Fragment] subclass.
@@ -32,11 +35,12 @@ class City : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_city, container, false)
+        val view = inflater.inflate(fragment_city, container, false)
         days.add(User("Dia 1", "45 F"))
         adapter = CityAdapter(days)
-        view.list.layoutManager = LinearLayoutManager(context)
-        view.list.adapter = adapter
+        view.citylist.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
+        view.citylist.adapter = adapter
+        adapter!!.UpdateData()
         return view
     }
 
