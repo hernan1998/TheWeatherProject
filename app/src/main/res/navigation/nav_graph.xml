@@ -10,12 +10,12 @@
         android:label="fragment_list"
         tools:layout="@layout/fragment_list" >
         <action
-            android:id="@+id/action_fragmentList_to_cityFragment2"
-            app:destination="@id/cityFragment" />
+            android:id="@+id/action_fragmentList_to_city"
+            app:destination="@id/city" />
     </fragment>
     <fragment
-        android:id="@+id/cityFragment"
-        android:name="com.example.theweatherproject.ui.CityFragment"
-        android:label="fragment_city_list"
-        tools:layout="@layout/fragment_city_list" />
+        android:id="@+id/city"
+        android:name="com.example.theweatherproject.ui.City"
+        android:label="fragment_city"
+        tools:layout="@layout/fragment_city" />
 </navigation>
