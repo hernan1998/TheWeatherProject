@@ -26,7 +26,7 @@ class FragmentList : Fragment(), UserAdapter.onListInteraction {
     val cities = mutableListOf<User>()
     private var adapter: UserAdapter? = null
     val API: String = "0fcfed172e3e096549c445cab418490f"
-    val CITY: String = "barranquilla,co"
+    //val CITY: String = "barranquilla,co"
     var temper = ""
 
     companion object {
@@ -40,12 +40,16 @@ class FragmentList : Fragment(), UserAdapter.onListInteraction {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_list, container, false)
-        weatherTask().execute()
-        cities.add(User("Ciudad 1", "25 F"))
-        cities.add(User("Ciudad 2", "26 F"))
-        cities.add(User("Ciudad 3", "26 F"))
-        cities.add(User("Ciudad 4", "26 F"))
-        cities.add(User("Ciudad 5", "26 F"))
+        weatherTask("barranquilla,co").execute()
+        weatherTask("cartagena,co").execute()
+        weatherTask("santa marta,co").execute()
+        weatherTask("bogota,co").execute()
+        weatherTask("medellin,co").execute()
+        weatherTask("cali,co").execute()
+        weatherTask("bucaramanga,co").execute()
+        weatherTask("valledupar,co").execute()
+        weatherTask("cucuta,co").execute()
+        weatherTask("soacha,co").execute()
         adapter = UserAdapter(cities, this)
         view.list.layoutManager = LinearLayoutManager(context)
         view.list.adapter = adapter
@@ -62,7 +66,7 @@ class FragmentList : Fragment(), UserAdapter.onListInteraction {
         Log.d("KRecycleView", "onListInteraction "+ item!!.nombre)
     }
 
-    inner class weatherTask() : AsyncTask<String, Void, String>() {
+    inner class weatherTask(var CITY: String) : AsyncTask<String, Void, String>() {
         override fun onPreExecute() {
             super.onPreExecute()
         }
@@ -93,7 +97,7 @@ class FragmentList : Fragment(), UserAdapter.onListInteraction {
                 val updatedAtText = "Updated at: "+ SimpleDateFormat("dd/MM/yyyy hh:mm a", Locale.ENGLISH).format(
                     Date(updatedAt*1000)
                 )
-                temper = main.getString("temp")+"°C"
+                val temp = main.getString("temp")+"°C"
                 val tempMin = "Min Temp: " + main.getString("temp_min")+"°C"
                 val tempMax = "Max Temp: " + main.getString("temp_max")+"°C"
                 val pressure = main.getString("pressure")
@@ -107,8 +111,8 @@ class FragmentList : Fragment(), UserAdapter.onListInteraction {
                 var address = jsonObj.getString("name")+", "+sys.getString("country")
 
 
-                Log.d("asd","entro" + temper)
-                cities.add(User(address,temper))
+                Log.d("asd","entro" + temp)
+                cities.add(User(address,temp))
                 adapter!!.UpdateData()
 
 
