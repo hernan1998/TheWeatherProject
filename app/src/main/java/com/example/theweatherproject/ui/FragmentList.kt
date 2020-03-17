@@ -7,17 +7,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.theweatherproject.R
 import com.example.theweatherproject.data.User
 import kotlinx.android.synthetic.main.fragment_list.view.*
 
 
-class FragmentList : Fragment(), MyUserRecyclerViewAdapter.onListInteraction {
+class FragmentList : Fragment(), UserAdapter.onListInteraction {
 
     val cities = mutableListOf<User>()
-    private var adapter: MyUserRecyclerViewAdapter? = null
+    private var adapter: UserAdapter? = null
 
     companion object {
         fun newInstance() = FragmentList()
@@ -32,7 +31,7 @@ class FragmentList : Fragment(), MyUserRecyclerViewAdapter.onListInteraction {
         val view = inflater.inflate(R.layout.fragment_list, container, false)
         cities.add(User("Ciudad 1", "32 F"))
         cities.add(User("Ciudad 2", "26 F"))
-        adapter = MyUserRecyclerViewAdapter(cities, this)
+        adapter = UserAdapter(cities, this)
         view.list.layoutManager = LinearLayoutManager(context)
         view.list.adapter = adapter
         return view
