@@ -13,6 +13,7 @@ class forecast2 {
     val API: String = "0fcfed172e3e096549c445cab418490f"
     //val CITY: String = "barranquilla,co"
     var temper = ""
+    var I: Int = 0
 
     inner class forecasTask(var CITY: String) : AsyncTask<String, Void, String>() {
         override fun onPreExecute() {
@@ -39,7 +40,7 @@ class forecast2 {
                 val main = jsonObj.getJSONObject("main")
                 val sys = jsonObj.getJSONObject("sys")
                 val wind = jsonObj.getJSONObject("wind")
-                val weather = jsonObj.getJSONArray("weather").getJSONObject(0)
+                val weather = jsonObj.getJSONArray("weather").getJSONObject(I)
 
                 val updatedAt:Long = jsonObj.getLong("dt")
                 val updatedAtText = "Forecast for: "+ SimpleDateFormat("dd/MM/yyyy hh:mm a", Locale.ENGLISH).format(
