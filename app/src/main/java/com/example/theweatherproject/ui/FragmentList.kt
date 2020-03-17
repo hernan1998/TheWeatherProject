@@ -10,8 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.theweatherproject.R
-import com.example.theweatherproject.data.Task
-import com.example.theweatherproject.data.Task.weatherTask
 import com.example.theweatherproject.data.User
 import kotlinx.android.synthetic.main.fragment_list.view.*
 import org.json.JSONObject
