@@ -18,7 +18,6 @@ import org.json.JSONObject
 import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.math.log
 
 
 class FragmentList : Fragment(), UserAdapter.onListInteraction {
