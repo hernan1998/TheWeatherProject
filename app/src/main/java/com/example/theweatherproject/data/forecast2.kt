@@ -7,7 +7,7 @@ import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.*
 
-class forecast {
+class forecast2 {
     private var adapter: UserAdapter? = null
     val cities = mutableListOf<User>()
     val API: String = "0fcfed172e3e096549c445cab418490f"
