@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.theweatherproject.R
 import com.example.theweatherproject.data.User
@@ -24,8 +26,7 @@ class FragmentList : Fragment(), UserAdapter.onListInteraction {
     val cities = mutableListOf<User>()
     private var adapter: UserAdapter? = null
     val API: String = "0fcfed172e3e096549c445cab418490f"
-    //val CITY: String = "barranquilla,co"
-    var temper = ""
+    lateinit var navControler: NavController
 
     companion object {
         fun newInstance() = FragmentList()
@@ -54,14 +55,16 @@ class FragmentList : Fragment(), UserAdapter.onListInteraction {
         return view
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View,savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        navControler = Navigation.findNavController(view)
         viewModel = ViewModelProviders.of(this).get(FragmentListViewModel::class.java)
         // TODO: Use the ViewModel
     }
 
     override fun onListItemInteracion(item: User?) {
         Log.d("KRecycleView", "onListInteraction "+ item!!.nombre)
+        navControler!!.navigate(R.id.action_fragmentList_to_cityFragment2)
     }
 
     inner class weatherTask(var CITY: String) : AsyncTask<String, Void, String>() {

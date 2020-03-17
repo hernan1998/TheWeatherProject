@@ -36,7 +36,7 @@ class UserAdapter (
         holder.mView.theLayout.textViewName.setOnClickListener{
             mListener?.onListItemInteracion(item)
         }
-        
+
     }
 
     public fun UpdateData(){
