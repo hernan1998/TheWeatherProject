@@ -58,7 +58,6 @@ class FragmentList : Fragment(), UserAdapter.onListInteraction {
         super.onViewCreated(view, savedInstanceState)
         navControler = Navigation.findNavController(view)
         viewModel = ViewModelProviders.of(this).get(FragmentListViewModel::class.java)
-        // TODO: Use the ViewModel
     }
 
     override fun onListItemInteracion(item: User?) {
