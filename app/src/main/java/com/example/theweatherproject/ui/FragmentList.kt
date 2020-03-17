@@ -1,5 +1,6 @@
 package com.example.theweatherproject.ui
 
+import android.os.AsyncTask
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.util.Log
@@ -13,15 +14,20 @@ import com.example.theweatherproject.data.Task
 import com.example.theweatherproject.data.Task.weatherTask
 import com.example.theweatherproject.data.User
 import kotlinx.android.synthetic.main.fragment_list.view.*
-
+import org.json.JSONObject
+import java.net.URL
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.math.log
 
 
 class FragmentList : Fragment(), UserAdapter.onListInteraction {
 
     val cities = mutableListOf<User>()
     private var adapter: UserAdapter? = null
-    val CITY: String = "barranquilla,co"
     val API: String = "0fcfed172e3e096549c445cab418490f"
+    val CITY: String = "barranquilla,co"
+    var temper = ""
 
     companion object {
         fun newInstance() = FragmentList()
@@ -34,18 +40,12 @@ class FragmentList : Fragment(), UserAdapter.onListInteraction {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_list, container, false)
-        val task = Task("barranquilla")
-        task.weatherTask()
-        cities.add(User("Ciudad 1", task.temperatura))
+        weatherTask().execute()
+        cities.add(User("Ciudad 1", "25 F"))
         cities.add(User("Ciudad 2", "26 F"))
         cities.add(User("Ciudad 3", "26 F"))
         cities.add(User("Ciudad 4", "26 F"))
         cities.add(User("Ciudad 5", "26 F"))
-        cities.add(User("Ciudad 6", "26 F"))
-        cities.add(User("Ciudad 7", "26 F"))
-        cities.add(User("Ciudad 8", "26 F"))
-        cities.add(User("Ciudad 9", "26 F"))
-        cities.add(User("Ciudad 10", "26 F"))
         adapter = UserAdapter(cities, this)
         view.list.layoutManager = LinearLayoutManager(context)
         view.list.adapter = adapter
@@ -60,6 +60,63 @@ class FragmentList : Fragment(), UserAdapter.onListInteraction {
 
     override fun onListItemInteracion(item: User?) {
         Log.d("KRecycleView", "onListInteraction "+ item!!.nombre)
+    }
+
+    inner class weatherTask() : AsyncTask<String, Void, String>() {
+        override fun onPreExecute() {
+            super.onPreExecute()
+        }
+
+        override fun doInBackground(vararg params: String?): String? {
+            var response:String?
+            try{
+                response = URL("https://api.openweathermap.org/data/2.5/weather?q=$CITY&units=metric&appid=$API").readText(
+                    Charsets.UTF_8
+                )
+            }catch (e: Exception){
+                response = null
+            }
+            return response
+        }
+
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+            try {
+                /* Extracting JSON returns from the API */
+                val jsonObj = JSONObject(result)
+                val main = jsonObj.getJSONObject("main")
+                val sys = jsonObj.getJSONObject("sys")
+                val wind = jsonObj.getJSONObject("wind")
+                val weather = jsonObj.getJSONArray("weather").getJSONObject(0)
+
+                val updatedAt:Long = jsonObj.getLong("dt")
+                val updatedAtText = "Updated at: "+ SimpleDateFormat("dd/MM/yyyy hh:mm a", Locale.ENGLISH).format(
+                    Date(updatedAt*1000)
+                )
+                temper = main.getString("temp")+"°C"
+                val tempMin = "Min Temp: " + main.getString("temp_min")+"°C"
+                val tempMax = "Max Temp: " + main.getString("temp_max")+"°C"
+                val pressure = main.getString("pressure")
+                val humidity = main.getString("humidity")
+
+                val sunrise:Long = sys.getLong("sunrise")
+                val sunset:Long = sys.getLong("sunset")
+                var windSpeed = wind.getString("speed")
+                var weatherDescription = weather.getString("description")
+
+                var address = jsonObj.getString("name")+", "+sys.getString("country")
+
+
+                Log.d("asd","entro" + temper)
+                cities.add(User(address,temper))
+                adapter!!.UpdateData()
+
+
+            } catch (e: Exception) {
+
+            }
+
+        }
     }
 
 }

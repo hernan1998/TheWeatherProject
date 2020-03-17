@@ -45,7 +45,7 @@ class Task (val CITY: String){
                     Date(updatedAt*1000)
                 )
                 val temp = main.getString("temp")+"°C"
-                temperatura = temp
+                this@Task.temperatura = temp
                 val tempMin = "Min Temp: " + main.getString("temp_min")+"°C"
                 val tempMax = "Max Temp: " + main.getString("temp_max")+"°C"
                 val pressure = main.getString("pressure")
