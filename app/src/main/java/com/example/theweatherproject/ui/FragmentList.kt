@@ -115,7 +115,7 @@ class FragmentList : Fragment(), UserAdapter.onListInteraction {
                 var address = jsonObj.getString("name")+", "+sys.getString("country")
 
 
-                cities.add(User(address,temp))
+                cities.add(User(CITY,temp))
                 adapter!!.UpdateData()
 
 
