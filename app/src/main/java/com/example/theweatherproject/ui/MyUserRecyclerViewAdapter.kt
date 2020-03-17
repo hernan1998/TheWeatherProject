@@ -11,7 +11,9 @@ import com.example.theweatherproject.data.User
 import kotlinx.android.synthetic.main.row.view.*
 
 class MyUserRecyclerViewAdapter (
-    private val mValues: List<User>) : RecyclerView.Adapter<MyUserRecyclerViewAdapter.ViewHolder>() {
+    private val mValues: List<User>,
+    private val mListener: onListInteraction
+    ) : RecyclerView.Adapter<MyUserRecyclerViewAdapter.ViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -26,10 +28,22 @@ class MyUserRecyclerViewAdapter (
         val item = mValues[position]
         holder.textViewN.text = item.nombre
         holder.textViewC.text = item.clima
+
+        holder.textViewN.setOnClickListener{
+            mListener?.onListItemInteracion(item)
+        }
+    }
+
+    public fun UpdateData(){
+        notifyDataSetChanged()
     }
 
     inner class ViewHolder (val mView: View) : RecyclerView.ViewHolder(mView){
         val textViewN : TextView = mView.textViewName
         val textViewC : TextView = mView.textViewClimate
+    }
+
+    interface onListInteraction{
+        fun onListItemInteracion(item: User?)
     }
 }
