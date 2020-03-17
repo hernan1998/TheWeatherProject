@@ -48,6 +48,7 @@ class City : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(fragment_city, container, false)
         days.add(User("Dia 1", "45 F"))
+        forecasTask(CITY).execute()
         adapter = CityAdapter(days)
         view.citylist.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
         view.citylist.adapter = adapter
@@ -83,6 +84,7 @@ class City : Fragment() {
         override fun onPostExecute(result: String?) {
             super.onPostExecute(result)
             try {
+                Log.d("foretask", "entro forecast inicio")
                 /* Extracting JSON returns from the API */
                 val jsonObj = JSONObject(result)
                 val main = jsonObj.getJSONObject("main")
@@ -108,6 +110,7 @@ class City : Fragment() {
                 var address = jsonObj.getString("name")+", "+sys.getString("country")
 
 
+                Log.d("foretask", "entro forecast final")
                 days.add(User(address,temp))
                 adapter!!.UpdateData()
 
