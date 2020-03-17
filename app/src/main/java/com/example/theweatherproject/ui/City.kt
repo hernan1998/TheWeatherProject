@@ -61,7 +61,7 @@ class City : Fragment() {
         cityModel = arguments!!.getParcelable("data")!!
         view.findViewById<TextView>(R.id.textView).text = cityModel.name
         CITY = cityModel.name
-        Log.d("name",CITY)
+
         viewModel = ViewModelProviders.of(this).get(FragmentListViewModel::class.java)
     }
 
@@ -73,6 +73,7 @@ class City : Fragment() {
         override fun doInBackground(vararg params: String?): String? {
             var response:String?
             try{
+                Log.d("nombreciu",CITY)
                 response = URL("https://api.openweathermap.org/data/2.5/forecast?q=$CITY&units=metric&appid=$API").readText(
                     Charsets.UTF_8
                 )
@@ -85,14 +86,16 @@ class City : Fragment() {
         override fun onPostExecute(result: String?) {
             super.onPostExecute(result)
             try {
+                var j = 0
                 for (i in 0 until 39 step 8 ) {
+                    j += 1
                     /* Extracting JSON returns from the API */
                     val jsonObj = JSONObject(result)
                     val list = jsonObj.getJSONArray("list").getJSONObject(i)
                     val main = list.getJSONObject("main")
                     val ciudad = jsonObj.getJSONObject("city")
                     val wind = list.getJSONObject("wind")
-                    val weather = list.getJSONArray("weather").getJSONObject(i)
+                    val weather = list.getJSONArray("weather").getJSONObject(0)
 
                     val updatedAt: Long = list.getLong("dt")
                     val updatedAtText = "Forecast for: " + SimpleDateFormat(
@@ -116,7 +119,7 @@ class City : Fragment() {
 
 
                     Log.d("foretask", "entro forecast final")
-                    days.add(User("Dia "+i, temp))
+                    days.add(User("Dia "+j, temp))
                     adapter!!.UpdateData()
                 }
 
