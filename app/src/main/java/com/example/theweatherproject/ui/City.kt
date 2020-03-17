@@ -48,7 +48,7 @@ class City : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(fragment_city, container, false)
         days.add(User("Dia 1", "45 F"))
-        forecasTask(CITY).execute()
+        forecasTask("barranquilla,co").execute()
         adapter = CityAdapter(days)
         view.citylist.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
         view.citylist.adapter = adapter
@@ -116,7 +116,7 @@ class City : Fragment() {
 
 
             } catch (e: Exception) {
-
+                Log.d("foretask", "entro forecast catch")
             }
 
         }
