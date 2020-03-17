@@ -48,7 +48,7 @@ class City : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(fragment_city, container, false)
         days.add(User("Dia 1", "45 F"))
-        forecasTask(CITY).execute()
+        forecasTask().execute()
         adapter = CityAdapter(days)
         view.citylist.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
         view.citylist.adapter = adapter
@@ -61,10 +61,11 @@ class City : Fragment() {
         cityModel = arguments!!.getParcelable("data")!!
         view.findViewById<TextView>(R.id.textView).text = cityModel.name
         CITY = cityModel.name
+        Log.d("name",CITY)
         viewModel = ViewModelProviders.of(this).get(FragmentListViewModel::class.java)
     }
 
-    inner class forecasTask(var CITY: String) : AsyncTask<String, Void, String>() {
+    inner class forecasTask() : AsyncTask<String, Void, String>() {
         override fun onPreExecute() {
             super.onPreExecute()
         }
