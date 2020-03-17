@@ -65,7 +65,8 @@ class FragmentList : Fragment(), UserAdapter.onListInteraction {
 
     override fun onListItemInteracion(item: User?) {
         Log.d("KRecycleView", "onListInteraction "+ item!!.nombre)
-        val bundle = bundleOf("data" to item.nombre)
+        cityModel = CityModel(item.nombre)
+        val bundle = bundleOf("data" to cityModel)
         navControler!!.navigate(R.id.action_fragmentList_to_city, bundle)
     }
 

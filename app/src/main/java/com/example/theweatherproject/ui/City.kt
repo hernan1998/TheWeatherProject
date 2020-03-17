@@ -2,6 +2,7 @@ package com.example.theweatherproject.ui
 
 import android.os.AsyncTask
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import androidx.navigation.Navigation
 
 import com.example.theweatherproject.R
 import com.example.theweatherproject.R.layout.fragment_city
+import com.example.theweatherproject.data.CityModel
 import com.example.theweatherproject.data.User
 import kotlinx.android.synthetic.main.fragment_city.view.*
 import kotlinx.android.synthetic.main.fragment_list.view.*
@@ -30,6 +32,7 @@ class City : Fragment() {
     val days = mutableListOf<User>()
     val API: String = "0fcfed172e3e096549c445cab418490f"
     private var adapter: CityAdapter? = null
+    lateinit var cityModel : CityModel
     var CITY = ""
 
     companion object {
@@ -54,8 +57,9 @@ class City : Fragment() {
 
     override fun onViewCreated(view: View,savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        CITY = arguments!!.getBundle("data").toString()
-        view.findViewById<TextView>(R.id.textView).text = CITY
+        cityModel = arguments!!.getParcelable("data")!!
+        view.findViewById<TextView>(R.id.textView).text = cityModel.name
+        CITY = cityModel.name
         viewModel = ViewModelProviders.of(this).get(FragmentListViewModel::class.java)
     }
 
