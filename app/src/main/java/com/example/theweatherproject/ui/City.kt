@@ -85,37 +85,40 @@ class City : Fragment() {
         override fun onPostExecute(result: String?) {
             super.onPostExecute(result)
             try {
-                Log.d("foretask", "entro forecast inicio")
-                /* Extracting JSON returns from the API */
-                val jsonObj = JSONObject(result)
-                val list = jsonObj.getJSONArray("list").getJSONObject(0)
-                val main = list.getJSONObject("main")
-                val ciudad = jsonObj.getJSONObject("city")
-                val wind = list.getJSONObject("wind")
-                val weather = list.getJSONArray("weather").getJSONObject(0)
+                for (i in 0 until 39 step 8 ) {
+                    /* Extracting JSON returns from the API */
+                    val jsonObj = JSONObject(result)
+                    val list = jsonObj.getJSONArray("list").getJSONObject(i)
+                    val main = list.getJSONObject("main")
+                    val ciudad = jsonObj.getJSONObject("city")
+                    val wind = list.getJSONObject("wind")
+                    val weather = list.getJSONArray("weather").getJSONObject(i)
 
-                val updatedAt:Long = list.getLong("dt")
-                val updatedAtText = "Forecast for: "+ SimpleDateFormat("dd/MM/yyyy hh:mm a", Locale.ENGLISH).format(
-                    Date(updatedAt*1000)
-                )
-                val temp = main.getString("temp")+"°C"
-                val tempMin = "Min Temp: " + main.getString("temp_min")+"°C"
-                val tempMax = "Max Temp: " + main.getString("temp_max")+"°C"
-                val pressure = main.getString("pressure")
-                val humidity = main.getString("humidity")
+                    val updatedAt: Long = list.getLong("dt")
+                    val updatedAtText = "Forecast for: " + SimpleDateFormat(
+                        "dd/MM/yyyy hh:mm a",
+                        Locale.ENGLISH
+                    ).format(
+                        Date(updatedAt * 1000)
+                    )
+                    val temp = main.getString("temp") + "°C"
+                    val tempMin = "Min Temp: " + main.getString("temp_min") + "°C"
+                    val tempMax = "Max Temp: " + main.getString("temp_max") + "°C"
+                    val pressure = main.getString("pressure")
+                    val humidity = main.getString("humidity")
 
-                val sunrise:Long = ciudad.getLong("sunrise")
-                val sunset:Long = ciudad.getLong("sunset")
-                var windSpeed = wind.getString("speed")
-                var weatherDescription = weather.getString("description")
+                    val sunrise: Long = ciudad.getLong("sunrise")
+                    val sunset: Long = ciudad.getLong("sunset")
+                    var windSpeed = wind.getString("speed")
+                    var weatherDescription = weather.getString("description")
 
-                var address = ciudad.getString("name")+", "+ciudad.getString("country")
+                    var address = ciudad.getString("name") + ", " + ciudad.getString("country")
 
 
-                Log.d("foretask", "entro forecast final")
-                days.add(User(address,temp))
-                adapter!!.UpdateData()
-
+                    Log.d("foretask", "entro forecast final")
+                    days.add(User("Dia "+i, temp))
+                    adapter!!.UpdateData()
+                }
 
             } catch (e: Exception) {
                 Log.d("foretask", "entro forecast catch")
