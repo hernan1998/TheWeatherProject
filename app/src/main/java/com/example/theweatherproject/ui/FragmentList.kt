@@ -17,6 +17,8 @@ class FragmentList : Fragment(), UserAdapter.onListInteraction {
 
     val cities = mutableListOf<User>()
     private var adapter: UserAdapter? = null
+    val CITY: String = "barranquilla,co"
+    val API: String = "0fcfed172e3e096549c445cab418490f"
 
     companion object {
         fun newInstance() = FragmentList()
