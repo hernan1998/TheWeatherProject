@@ -9,8 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.theweatherproject.R
+import com.example.theweatherproject.data.Task
+import com.example.theweatherproject.data.Task.weatherTask
 import com.example.theweatherproject.data.User
 import kotlinx.android.synthetic.main.fragment_list.view.*
+
 
 
 class FragmentList : Fragment(), UserAdapter.onListInteraction {
@@ -29,7 +32,9 @@ class FragmentList : Fragment(), UserAdapter.onListInteraction {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_list, container, false)
-        cities.add(User("Ciudad 1", "32 F"))
+        val task = Task("barranquilla")
+        task.weatherTask()
+        cities.add(User("Ciudad 1", task.temperatura))
         cities.add(User("Ciudad 2", "26 F"))
         cities.add(User("Ciudad 3", "26 F"))
         cities.add(User("Ciudad 4", "26 F"))

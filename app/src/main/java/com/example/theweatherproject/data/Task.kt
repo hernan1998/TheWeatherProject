@@ -6,19 +6,16 @@ import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.*
 
-class Task {
+class Task (val CITY: String){
 
-    val CITY: String = "barranquilla,co"
+    //val CITY: String = "barranquilla,co"
     val API: String = "0fcfed172e3e096549c445cab418490f"
+    var temperatura: String = ""
 
 
     inner class weatherTask() : AsyncTask<String, Void, String>() {
         override fun onPreExecute() {
             super.onPreExecute()
-            /* Showing the ProgressBar, Making the main design GONE
-            findViewById<ProgressBar>(R.id.loader).visibility = View.VISIBLE
-            findViewById<RelativeLayout>(R.id.mainContainer).visibility = View.GONE
-            findViewById<TextView>(R.id.errorText).visibility = View.GONE */
         }
 
         override fun doInBackground(vararg params: String?): String? {
@@ -48,6 +45,7 @@ class Task {
                     Date(updatedAt*1000)
                 )
                 val temp = main.getString("temp")+"°C"
+                temperatura = temp
                 val tempMin = "Min Temp: " + main.getString("temp_min")+"°C"
                 val tempMax = "Max Temp: " + main.getString("temp_max")+"°C"
                 val pressure = main.getString("pressure")
@@ -55,10 +53,12 @@ class Task {
 
                 val sunrise:Long = sys.getLong("sunrise")
                 val sunset:Long = sys.getLong("sunset")
-                val windSpeed = wind.getString("speed")
-                val weatherDescription = weather.getString("description")
+                var windSpeed = wind.getString("speed")
+                var weatherDescription = weather.getString("description")
 
-                val address = jsonObj.getString("name")+", "+sys.getString("country")
+                var address = jsonObj.getString("name")+", "+sys.getString("country")
+
+
 
                 /* Populating extracted data into our views
                 findViewById<TextView>(R.id.address).text = address
