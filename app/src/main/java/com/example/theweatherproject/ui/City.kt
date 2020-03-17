@@ -61,7 +61,7 @@ class City : Fragment() {
         cityModel = arguments!!.getParcelable("data")!!
         view.findViewById<TextView>(R.id.textView).text = cityModel.name
         CITY = cityModel.name
-        Log.d("name",CITY)
+
         viewModel = ViewModelProviders.of(this).get(FragmentListViewModel::class.java)
     }
 
@@ -73,11 +73,13 @@ class City : Fragment() {
         override fun doInBackground(vararg params: String?): String? {
             var response:String?
             try{
+                Log.d("nombreciu",CITY)
                 response = URL("https://api.openweathermap.org/data/2.5/forecast?q=$CITY&units=metric&appid=$API").readText(
                     Charsets.UTF_8
                 )
             }catch (e: Exception){
-                response = null
+                response = ""+e
+                Log.d("response", response)
             }
             return response
         }
@@ -85,9 +87,10 @@ class City : Fragment() {
         override fun onPostExecute(result: String?) {
             super.onPostExecute(result)
             try {
-                Log.d("foretask", "entro forecast inicio")
+
                 /* Extracting JSON returns from the API */
                 val jsonObj = JSONObject(result)
+                Log.d("foretask", "entró result")
                 val list = jsonObj.getJSONArray("list").getJSONObject(0)
                 val main = list.getJSONObject("main")
                 val ciudad = jsonObj.getJSONObject("city")
@@ -118,7 +121,7 @@ class City : Fragment() {
 
 
             } catch (e: Exception) {
-                Log.d("foretask", "entro forecast catch")
+                Log.d("catch", "cod: "+e)
             }
 
         }
