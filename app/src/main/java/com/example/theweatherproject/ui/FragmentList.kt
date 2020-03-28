@@ -24,6 +24,7 @@ import java.util.*
 
 class FragmentList : Fragment(), UserAdapter.onListInteraction {
 
+    var isLoaded : Boolean = false
     val cities = mutableListOf<User>()
     private var adapter: UserAdapter? = null
     val API: String = "0fcfed172e3e096549c445cab418490f"
@@ -51,6 +52,7 @@ class FragmentList : Fragment(), UserAdapter.onListInteraction {
         weatherTask("valledupar,co").execute()
         weatherTask("cucuta,co").execute()
         weatherTask("soacha,co").execute()
+
         adapter = UserAdapter(cities, this)
         view.list.layoutManager = LinearLayoutManager(context)
         view.list.adapter = adapter
@@ -66,6 +68,8 @@ class FragmentList : Fragment(), UserAdapter.onListInteraction {
     override fun onListItemInteracion(item: User?) {
         Log.d("KRecycleView", "onListInteraction "+ item!!.nombre)
         cityModel = CityModel(item.nombre)
+        isLoaded = cityModel.isLoaded
+        Log.d("flavio2", isLoaded.toString())
         val bundle = bundleOf("data" to cityModel)
         navControler!!.navigate(R.id.action_fragmentList_to_city, bundle)
     }
@@ -115,7 +119,9 @@ class FragmentList : Fragment(), UserAdapter.onListInteraction {
                 var address = jsonObj.getString("name")+", "+sys.getString("country")
 
 
-                cities.add(User(CITY,temp))
+                if (!isLoaded) {
+                    cities.add(User(CITY, temp))
+                }
                 adapter!!.UpdateData()
 
 

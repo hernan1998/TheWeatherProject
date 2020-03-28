@@ -47,7 +47,7 @@ class City : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(fragment_city, container, false)
-        forecasTask().execute()
+
         adapter = CityAdapter(days)
         view.citylist.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
         view.citylist.adapter = adapter
@@ -60,6 +60,8 @@ class City : Fragment() {
         cityModel = arguments!!.getParcelable("data")!!
         view.findViewById<TextView>(R.id.textView).text = cityModel.name
         CITY = cityModel.name
+        forecasTask().execute()
+        Log.d("flavio", CITY)
 
         viewModel = ViewModelProviders.of(this).get(FragmentListViewModel::class.java)
     }
@@ -73,10 +75,11 @@ class City : Fragment() {
             var response:String?
             try{
                 Log.d("nombreciu",CITY)
-                response = URL("https://api.openweathermap.org/data/2.5/forecast?q=$CITY&units=metric&appid=$API").readText(
+                response = URL("https://api.openweathermap.org/data/2.5/forecast?q="+CITY+"&units=metric&appid=$API").readText(
                     Charsets.UTF_8
                 )
             }catch (e: Exception){
+                Log.d("esepcion", e.toString())
                 response = null
             }
             return response

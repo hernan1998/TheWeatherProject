@@ -5,4 +5,5 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 class CityModel (val name: String) : Parcelable {
+   public var isLoaded : Boolean = true
 }
